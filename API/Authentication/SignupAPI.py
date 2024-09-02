@@ -44,7 +44,7 @@ class SignupAPI(Resource):
         if user_mailcheck:
             raise BusinessValidationError(status_code=400, error_code="BE106", error_message="Email Not Available!")
 
-        if db.session.query(User).count() > 0:
+        if db.session.query(User).count() >= 0:
             new_user = User(username=username, email=email, password=hash_password(password), active=True, is_admin=False)
             new_user.fs_uniquifier = secrets.token_hex(16)
 

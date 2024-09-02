@@ -20,7 +20,7 @@ def create_app():
 
 app, api = create_app()
 
-
-
+api.add_resource(LoginAPI, '/api/login')
+api.add_resource(SignupAPI, '/api/signup')
 if __name__ == '__main__':
     app.run(debug=True)

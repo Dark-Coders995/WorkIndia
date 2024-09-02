@@ -13,10 +13,9 @@ class Config:
 
 
 class LocalDevelopmentConfig(Config):
-    SQLITE_DB_DIR = os.path.join(curr_dir, '../database')
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(SQLITE_DB_DIR, 'grocery.db')
+    SQLALCHEMY_DATABASE_URI = 'postgresql://username:password@localhost:5432/flask_db'
     DEBUG = True
-    SECRET_KEY = 'Ayush23435' 
+    SECRET_KEY = 'Irtc23435' 
     SECURITY_PASSWORD_HASH = 'bcrypt'
-    SECURITY_PASSWORD_SALT = 'grocery@store35243'  
-    JWT_SECRET_KEY = 'Ayush23435'
+    SECURITY_PASSWORD_SALT = 'irctc@book35243'  
+    JWT_SECRET_KEY = 'Irtct23435'
