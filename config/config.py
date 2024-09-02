@@ -1,6 +1,8 @@
 import os
 
 curr_dir = os.path.abspath(os.path.dirname(__file__))
+from dotenv import load_dotenv
+load_dotenv()
 
 
 class Config:
@@ -13,7 +15,8 @@ class Config:
 
 
 class LocalDevelopmentConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql://username:password@localhost:5432/flask_db'
+    SQLALCHEMY_DATABASE_URI = f"postgresql://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}@localhost:5432/flask_db"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
     SECRET_KEY = 'Irtc23435' 
     SECURITY_PASSWORD_HASH = 'bcrypt'

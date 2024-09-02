@@ -13,6 +13,7 @@ def create_app():
     api_create = Api(app_create)
     api_create.init_app(app_create)
     JWTManager(app_create)
+    migrate = Migrate(app_create, db)
     security.init_app(app_create, user_datastore)
     app_create.app_context().push()
     return app_create, api_create

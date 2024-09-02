@@ -18,7 +18,6 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
     active = db.Column(db.Boolean)
-    cart = db.relationship('Cart', backref='User', lazy=True)
 
     fs_uniquifier = db.Column(db.String(255), unique=True , nullable=False)
     def __repr__(self):

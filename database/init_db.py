@@ -1,6 +1,8 @@
 import os
 import psycopg2
 from psycopg2 import sql
+from dotenv import load_dotenv
+load_dotenv()
 
 # Function to create database if it does not exist
 def create_database(dbname):
@@ -8,8 +10,8 @@ def create_database(dbname):
     conn = psycopg2.connect(
         host="localhost",
         database="postgres",
-        user=os.environ['DB_USERNAME'],
-        password=os.environ['DB_PASSWORD']
+        user=os.getenv('DB_USERNAME'),
+        password=os.getenv('DB_PASSWORD')
     )
     conn.autocommit = True
     cur = conn.cursor()
@@ -43,18 +45,6 @@ conn = psycopg2.connect(
 cur = conn.cursor()
 
 # Execute a command: this creates a new table
-cur.execute('''
-CREATE TABLE IF NOT EXISTS "User" (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(150) NOT NULL UNIQUE,
-    email VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL,
-    is_admin BOOLEAN DEFAULT FALSE,
-    active BOOLEAN,
-    fs_uniquifier VARCHAR(255) NOT NULL UNIQUE,
-    FOREIGN KEY (is_admin) REFERENCES Role(id)
-);
-''')
 
 cur.execute('''
 CREATE TABLE IF NOT EXISTS "Role" (
@@ -63,7 +53,19 @@ CREATE TABLE IF NOT EXISTS "Role" (
     "description" TEXT NOT NULL
 );
 ''')
-
+cur.execute('''
+CREATE TABLE IF NOT EXISTS "User" (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(150) NOT NULL UNIQUE,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    role_id INTEGER,
+    is_admin BOOLEAN DEFAULT FALSE,
+    active BOOLEAN,
+    fs_uniquifier VARCHAR(255) NOT NULL UNIQUE,
+    FOREIGN KEY (role_id) REFERENCES "Role" (id)
+);
+''')
 cur.execute('''
 CREATE TABLE IF NOT EXISTS "UserRole" (
     "user_id" INTEGER,
@@ -73,6 +75,9 @@ CREATE TABLE IF NOT EXISTS "UserRole" (
     PRIMARY KEY ("user_id", "role_id")
 );
 ''')
+
+
+
 # Commit the transaction
 conn.commit()
 
