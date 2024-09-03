@@ -30,7 +30,11 @@ from config.validation import *
 
 from API.Authentication.LoginAPI import *
 from API.Authentication.SignupAPI import *
-from API.Authentication.CreateAdmin import *
+from API.User.Availability import *
+from API.User.BookAPI import *
+from API.Admin.TrainsAPI import *
+from API.Authentication.AdminAPI import AdminLoginAPI, SignupAdminAPI
+
 
 
 

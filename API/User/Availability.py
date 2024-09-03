@@ -7,21 +7,17 @@ from flask_jwt_extended import create_access_token, create_refresh_token, jwt_re
 from flask_restful import Resource, reqparse
 from API.Authentication.LoginAPI import *
 
-check_train = reqparse.RequestParser()
-check_train.add_argument("from_station")
-check_train.add_argument("to_station")
-
 class CheckAvailability(Resource):
     @jwt_required
     @user_required
-    def get(self):
-        args = check_train.parse_args()
-        from_station = args.get('from_station')
-        to_station = args.get('to_station')
+    def get (self , source  , destination):
 
-        if not from_station or not to_station:
+        if not source or not destination :
             return jsonify({'message': 'Missing required parameters: from_station and to_station'}), 400
-        trains = Train.query.filter_by(from_station=from_station, to_station=to_station).all()
+        trains = Train.query.filter_by(from_station=source, to_station=destination).all()
+        if not trains:
+            return jsonify({'message': 'No trains found for the specified route'}), 404
+
 
         trains_data = [
             {
@@ -35,4 +31,3 @@ class CheckAvailability(Resource):
         ]
 
         return jsonify(trains_data)
-2

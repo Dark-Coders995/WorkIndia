@@ -25,6 +25,16 @@ api.add_resource(LoginAPI, '/api/login')
 api.add_resource(SignupAPI, '/api/signup')
 
 
+api.add_resource(SignupAdminAPI , '/api/admin/signup')
+api.add_resource(AdminLoginAPI , '/api/admin/login')
+api.add_resource(AddTrain , '/api/admin/addTrain')
+
+
+api.add_resource(CheckAvailability , '/api/checkTrain/<string:source>/to/<string:destination>')
+api.add_resource(AllBookingsAPI , '/api/bookings')
+api.add_resource(BookTrainAPI , '/api/bookTrain/<int:train_id>')
+api.add_resource(BookingDetailsAPI , '/api/BookingDetails/<int:booking_id>')
+
 @app.route('/')
 def login_page():
     return render_template('login.html')

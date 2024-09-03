@@ -59,7 +59,9 @@ class BookTrainAPI(Resource):
                     booking = Booking(user_id=user_id, train_id=train_id)
                     db.session.add(booking)
                     db.session.commit()
-                    return jsonify({'message': 'Booking successful!', 'booking_id': booking.id})
+                    response = jsonify({'message': 'Booking successful!', 'booking_id': booking.id})
+                    response.status_code = 201
+                    return response
                 else:
                     return jsonify({'message': 'No seats available.'}), 400
         else:
