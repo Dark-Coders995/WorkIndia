@@ -89,7 +89,7 @@
 
 1. **Open Postman**:
 
-   - Go to [Postman](http://127.0.0.1:5000/) to test your API endpoints.
+   - Go to Postman to test your API endpoints.
    - You can create a collection in Postman to manage and test all API endpoints provided in `app.py`.
 
 ### 7. Update HTML Pages
