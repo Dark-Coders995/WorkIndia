@@ -8,19 +8,17 @@ from config.validation import *
 from models.models import User
 from models.database import db
 from config.security import user_datastore
+from flask import request
 
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, verify_jwt_in_request
 from datetime import timedelta
 
-user_parser = reqparse.RequestParser()
-user_parser.add_argument('username')
-user_parser.add_argument('password')
 
 class LoginAPI(Resource):
 	def post(self):
-		args = user_parser.parse_args()
-		username = args.get('username')
-		password = args.get('password')
+		data = request.get_json()
+		username = data.get('username')
+		password = data.get('password')
 		user = None
 		if '@' in username:
 			user = db.session.query(User).filter(User.email == username).first()

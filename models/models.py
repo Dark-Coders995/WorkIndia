@@ -20,6 +20,8 @@ class User(db.Model, UserMixin):
     active = db.Column(db.Boolean)
 
     fs_uniquifier = db.Column(db.String(255), unique=True , nullable=False)
+    role_id = db.Column(db.Integer, db.ForeignKey('Role.id'))
+    role = db.relationship('Role', backref=db.backref('users', lazy=True))
     def __repr__(self):
         return f"User( id = {self.id}, user_name = '{self.user_name}', email = '{self.email}')"
     
@@ -30,4 +32,23 @@ class Role(db.Model, RoleMixin):
     description = db.Column(db.String(255), nullable=False)
     def __repr__(self):
         return f"Role( id = {self.id}, name = '{self.name}', description = '{self.description}')"
+    
+class Train(db.Model):
+    __tablename__ = "Train"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150), nullable=False)
+    from_station = db.Column(db.String(150), nullable=False)
+    to_station = db.Column(db.String(150), nullable=False)
+    total_seats = db.Column(db.Integer, nullable=False)
+    available_seats = db.Column(db.Integer, nullable=False)
+
+class Booking(db.Model):
+    __tablename__ = "Booking" 
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+    train_id = db.Column(db.Integer, db.ForeignKey('Train.id'), nullable=False)
+    booking_time = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship('User', backref=db.backref('bookings', lazy=True))
+    train = db.relationship('Train', backref=db.backref('bookings', lazy=True))
     

@@ -75,7 +75,26 @@ CREATE TABLE IF NOT EXISTS "UserRole" (
     PRIMARY KEY ("user_id", "role_id")
 );
 ''')
-
+cur.execute('''
+CREATE TABLE IF NOT EXISTS "Train" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(150) NOT NULL,
+    "from_station" VARCHAR(150) NOT NULL,
+    "to_station" VARCHAR(150) NOT NULL,
+    "total_seats" INTEGER NOT NULL,
+    "available_seats" INTEGER NOT NULL
+);
+''')
+cur.execute('''
+CREATE TABLE IF NOT EXISTS "Booking" (
+    "id" SERIAL PRIMARY KEY,
+    "user_id" INTEGER NOT NULL,
+    "train_id" INTEGER NOT NULL,
+    "booking_time" TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("user_id") REFERENCES "User" ("id"),
+    FOREIGN KEY ("train_id") REFERENCES "Train" ("id")
+);
+''')
 
 
 # Commit the transaction
